@@ -5,24 +5,25 @@ use Huxtable\Core\File;
 
 $appName = basename( __FILE__ );
 
-$dirBase     = dirname( __DIR__ );
-$dirLib      = $dirBase . '/lib';
-$dirApp      = $dirLib  . '/' . $appName;
-$dirCommands = $dirLib  . '/commands';
-$dirVendor   = $dirBase . '/vendor';
+$pathBase		= dirname( __DIR__ );
+$pathLib		= $pathBase . '/lib';
+$pathApp		= $pathLib  . '/' . $appName;
+$pathCommands	= $pathLib  . '/commands';
+$pathVendor		= $pathBase . '/vendor';
+$pathData		= '/var/opt/rosie';
 
 /*
  * App configuration
  */
-$config = require_once( $dirLib . '/config.php' );
+$config = require_once( $pathLib . '/config.php' );
 
 /*
  * Initialize autoloading
  */
-include_once( $dirVendor . '/huxtable/cli/src/CLI/Autoloader.php' );
+include_once( $pathVendor . '/huxtable/cli/src/CLI/Autoloader.php' );
 Huxtable\CLI\Autoloader::register();
 
-include_once( $dirVendor . '/huxtable/core/src/Core/Autoloader.php' );
+include_once( $pathVendor . '/huxtable/core/src/Core/Autoloader.php' );
 Huxtable\Core\Autoloader::register();
 
 /*
@@ -38,7 +39,7 @@ $fileFilter
 ->setDefaultMethod( $fileFilter::METHOD_INCLUDE )
 ->includeFileExtension( 'php' );
 
-$commandsFolder = new File\Directory( $dirCommands );
+$commandsFolder = new File\Directory( $pathCommands );
 $commandFiles = $commandsFolder->children( $fileFilter );
 
 foreach( $commandFiles as $commandFile )
