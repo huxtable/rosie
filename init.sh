@@ -6,7 +6,7 @@ git remote rm origin
 git checkout --orphan master &> /dev/null
 
 ## Move entrypoint
-mv ./bin/rudy ./bin/$projectName
+mv ./bin/rosie ./bin/$projectName
 
 ## README
 if [ -f README.md ]; then
