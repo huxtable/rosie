@@ -7,29 +7,38 @@ $appName = basename( __FILE__ );
 
 $pathBase		= dirname( __DIR__ );
 $pathLib		= $pathBase . '/lib';
-$pathApp		= $pathLib  . '/' . $appName;
+$pathApp		= $pathLib  . '/bot';
 $pathCommands	= $pathLib  . '/commands';
 $pathVendor		= $pathBase . '/vendor';
-$pathData		= '/var/opt/rosie';
+$pathData		= '/var/opt/' . $appName;
 
 /*
  * App configuration
  */
-$config = require_once( $pathLib . '/config.php' );
+$info = require_once( $pathLib . '/info.php' );
 
 /*
  * Initialize autoloading
  */
-include_once( $pathVendor . '/huxtable/cli/src/CLI/Autoloader.php' );
-Huxtable\CLI\Autoloader::register();
+include_once( $pathApp . '/Autoloader.php' );
+Bot\Autoloader::register();
 
-include_once( $pathVendor . '/huxtable/core/src/Core/Autoloader.php' );
-Huxtable\Core\Autoloader::register();
+include_once( $pathVendor . '/huxtable/bot/autoload.php' );
+include_once( $pathVendor . '/huxtable/cli/autoload.php' );
+include_once( $pathVendor . '/huxtable/core/autoload.php' );
 
 /*
  * App configuration
  */
-$app = new Huxtable\CLI\Application( $appName, $config['version'], $config['php-min'] );
+$app = new Huxtable\CLI\Application( $appName, $info['version'], $info['php-min'] );
+
+/*
+ * Bot configuration
+ */
+$dirData = new File\Directory( $pathData );
+
+$fileConfig = $dirData->child( 'config.json' );
+$config = new Bot\Config( $fileConfig );
 
 /*
  * Register commands
