@@ -15,3 +15,4 @@ sudo ln -s /vagrant/bin/rosie /usr/local/bin/rosie
 sudo apt-get install php5-cli -y
 sudo apt-get install php5-curl -y
 sudo apt-get install php5-imagick -y
+sudo apt-get install php5-oauth -y
