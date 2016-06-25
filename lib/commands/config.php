@@ -7,40 +7,34 @@ use Huxtable\Core\File;
 
 /**
  * @command		config
- * @desc		Configure the local environment for bot
+ * @desc		Configure the local environment
  * @usage		config
  */
-$commandConfig = new Command( 'config', "Configure the local environment for '{$appName}'", function()
+$commandConfig = new Command( 'config', "Configure the local environment for '{$appName}'", function( $service )
 {
 	GLOBAL $config;
 
-	echo PHP_EOL;
+	switch( $service )
+	{
+		case 'twitter':
+			$configKeys =
+			[
+				[ 'name' => 'consumerKey', 'description' => 'Consumer Key' ],
+				[ 'name' => 'consumerSecret', 'description' => 'Consumer Secret' ],
+				[ 'name' => 'accessToken', 'description' => 'Access Token' ],
+				[ 'name' => 'accessTokenSecret', 'description' => 'Access Token Secret' ],
+			];
+			break;
 
-	$configKeys =
-	[
-		[
-			'name' => 'consumerKey',
-			'description' => 'Consumer Key'
-		],
-		[
-			'name' => 'consumerSecret',
-			'description' => 'Consumer Secret'
-		],
-		[
-			'name' => 'accessToken',
-			'description' => 'Access Token'
-		],
-		[
-			'name' => 'accessTokenSecret',
-			'description' => 'Access Token Secret'
-		],
-	];
+		default:
+			throw new Command\CommandInvokedException( "Unknown service '{$service}'.", 1 );
+	}
 
 	foreach( $configKeys as $configKey )
 	{
 		$configKeyName = $configKey['name'];
 
-		$defaults[$configKeyName] = $config->getValue( $configKeyName );
+		$defaults[$configKeyName] = $config->getValue( $service, $configKeyName );
 		foreach( $defaults as $key => $defaultValue )
 		{
 			$formattedDefaults[$key] = $defaultValue;
@@ -49,7 +43,7 @@ $commandConfig = new Command( 'config', "Configure the local environment for '{$
 		$input[$configKeyName] = Input::prompt( "{$configKey['description']} [{$formattedDefaults[$configKeyName]}]:" );
 		$configValue = $input[$configKeyName] == '' ? $defaults[$configKeyName] : $input[$configKeyName];
 
-		$config->setValue( $configKey['name'], $configValue );
+		$config->setValue( $service, $configKey['name'], $configValue );
 	}
 
 	$config->write();

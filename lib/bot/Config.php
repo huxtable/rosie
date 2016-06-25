@@ -35,14 +35,15 @@ class Config
 	}
 
 	/**
+	 * @param	string	$domain
 	 * @param	string	$key
 	 * @return	mixed
 	 */
-	public function getValue( $key )
+	public function getValue( $domain, $key )
 	{
-		if( isset( $this->data[$key] ) )
+		if( isset( $this->data[$domain][$key] ) )
 		{
-			return $this->data[$key];
+			return $this->data[$domain][$key];
 		}
 	}
 
@@ -51,9 +52,9 @@ class Config
 	 * @param	string	$value
 	 * @return	void
 	 */
-	public function setValue( $key, $value )
+	public function setValue( $domain, $key, $value )
 	{
-		$this->data[$key] = $value;
+		$this->data[$domain][$key] = $value;
 	}
 
 	/**
