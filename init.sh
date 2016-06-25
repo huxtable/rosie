@@ -7,6 +7,7 @@ git checkout --orphan master &> /dev/null
 
 ## Move entrypoint
 mv ./bin/rosie ./bin/$projectName
+mv ./lib/rosie ./lib/$projectName
 
 ## README
 if [ -f README.md ]; then
