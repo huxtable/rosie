@@ -38,7 +38,7 @@ $app = new Huxtable\CLI\Application( $appName, $info['version'], $info['php-min'
 $dirData = new File\Directory( $pathData );
 
 $fileConfig = $dirData->child( 'config.json' );
-$config = new Bot\Config( $fileConfig );
+$config = new Huxtable\Core\Config( $fileConfig );
 
 /*
  * Register commands
